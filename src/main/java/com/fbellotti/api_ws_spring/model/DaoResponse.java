@@ -1,8 +1,12 @@
 package com.fbellotti.api_ws_spring.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
+@XmlRootElement(name="response")
 public class DaoResponse<T> {
 
   private T object;
