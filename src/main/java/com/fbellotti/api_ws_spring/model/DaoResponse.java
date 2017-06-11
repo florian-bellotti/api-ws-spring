@@ -1,26 +1,26 @@
 package com.fbellotti.api_ws_spring.model;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
-@XmlRootElement(name="response")
 public class DaoResponse<T> {
 
-  private T object;
+  private List<T> items;
   private String contentRange;
   private int acceptRange;
+  private Boolean partialResponse;
 
-  public DaoResponse(T object, int from, int to, long total, int acceptRange) {
-    this.object = object;
-    this.contentRange = from +  "-" + to  + "/" + total;
+  public DaoResponse(List<T> items, int skip, int limit, long total, int acceptRange) {
+    this.items = items;
+    this.contentRange = skip + "-" + limit + "/" + total;
     this.acceptRange = acceptRange;
+    partialResponse =  skip > 0 || limit < total;
   }
 
-  public T getObject() {
-    return object;
+  public List<T> getItems() {
+    return items;
   }
 
   public String getContentRange() {
@@ -29,5 +29,9 @@ public class DaoResponse<T> {
 
   public int getAcceptRange() {
     return acceptRange;
+  }
+
+  public Boolean getPartialResponse() {
+    return partialResponse;
   }
 }

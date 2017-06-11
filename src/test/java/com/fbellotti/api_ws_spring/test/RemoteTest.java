@@ -1,12 +1,12 @@
 package com.fbellotti.api_ws_spring.test;
 
-import com.fbellotti.api_ws_spring.response.ApiResponse;
-import com.fbellotti.api_ws_spring.response.ResponseStatus;
 import com.fbellotti.api_ws_spring.test.model.Address;
 import com.fbellotti.api_ws_spring.test.remote.CustomerRemoteImpl;
 import com.fbellotti.api_ws_spring.test.config.TestConfig;
 import com.fbellotti.api_ws_spring.test.model.Customer;
+import com.sun.org.apache.regexp.internal.RE;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +18,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
-import static org.junit.Assert.*;
 
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
@@ -60,23 +60,22 @@ public class RemoteTest {
     queryParams = new MultivaluedHashMap<>();
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
-    ApiResponse<Long> response = customerRemoteImpl.count(uriInfo);
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals(new Long(1503), response.getObject());
+    Response response = customerRemoteImpl.count(uriInfo);
+    Assert.assertEquals(200, response.getStatus());
+    Assert.assertEquals(new Long(1503), response.getEntity());
 
     queryParams = new MultivaluedHashMap<>();
     queryParams.add("firstName","Florian");
     queryParams.add("firstName","Test");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
     response = customerRemoteImpl.count(uriInfo);
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals("200", response.getCode());
-    assertEquals(new Long(2), response.getObject());
+    Assert.assertEquals(200, response.getStatus());
+    Assert.assertEquals(new Long(2), response.getEntity());
   }
 
   @Test
@@ -84,14 +83,15 @@ public class RemoteTest {
     queryParams = new MultivaluedHashMap<>();
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
-    ApiResponse<List<Customer>> response = customerRemoteImpl.find(uriInfo);
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals(1000, response.getObject().size());
-    for (Customer customer : response.getObject()) {
-      assertNotNull(customer.getFirstName());
-      assertNotNull(customer.getLastName());
+    Response response = customerRemoteImpl.find(uriInfo);
+    Assert.assertEquals(206, response.getStatus());
+    List<Customer> list = (List<Customer>) response.getEntity();
+    Assert.assertEquals(1000, list.size());
+    for (Customer customer : list) {
+      Assert.assertNotNull(customer.getFirstName());
+      Assert.assertNotNull(customer.getLastName());
     }
   }
 
@@ -100,23 +100,23 @@ public class RemoteTest {
     queryParams = new MultivaluedHashMap<>();
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
-    ApiResponse<List<Customer>> response = customerRemoteImpl.find(uriInfo);
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals("0-1000/1503", response.getContentRange());
-    assertEquals("1000", response.getAcceptRange());
+    Response response = customerRemoteImpl.find(uriInfo);
+    Assert.assertEquals(206, response.getStatus());
+    Assert.assertEquals("0-1000/1503", response.getHeaderString("content-range"));
+    Assert.assertEquals("1000", response.getHeaderString("accept-range"));
 
     queryParams = new MultivaluedHashMap<>();
     queryParams.add("range","1-2000");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
     response = customerRemoteImpl.find(uriInfo);
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals("1-1001/1503", response.getContentRange());
-    assertEquals("1000", response.getAcceptRange());
+    Assert.assertEquals(206, response.getStatus());
+    Assert.assertEquals("1-1001/1503", response.getHeaderString("content-range"));
+    Assert.assertEquals("1000", response.getHeaderString("accept-range"));
   }
 
   @Test
@@ -125,12 +125,12 @@ public class RemoteTest {
     queryParams.add("asc","firstName");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
-    ApiResponse<List<Customer>> response = customerRemoteImpl.first(uriInfo);
-    assertEquals("Success", response.getMessage());
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals(1, response.getObject().size());
+    Response response = customerRemoteImpl.first(uriInfo);
+    Assert.assertEquals(206, response.getStatus());
+    List<Customer> list = (List<Customer>) response.getEntity();
+    Assert.assertEquals(1, list.size());
   }
 
   @Test
@@ -139,14 +139,13 @@ public class RemoteTest {
     queryParams.add("fields","firstName");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
-    ApiResponse<List<Customer>> response = customerRemoteImpl.find(uriInfo);
-    assertEquals("Success", response.getMessage());
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    for (Customer customer : response.getObject()) {
-      assertNotNull(customer.getFirstName());
-      assertNull(customer.getLastName());
+    Response response = customerRemoteImpl.find(uriInfo);
+    Assert.assertEquals(206, response.getStatus());
+    for (Customer customer : (List<Customer>) response.getEntity()) {
+      Assert.assertNotNull(customer.getFirstName());
+      Assert.assertNull(customer.getLastName());
     }
 
     queryParams = new MultivaluedHashMap<>();
@@ -154,14 +153,13 @@ public class RemoteTest {
     queryParams.add("fields","lastName");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
     response = customerRemoteImpl.find(uriInfo);
-    assertEquals("Success", response.getMessage());
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    for (Customer customer : response.getObject()) {
-      assertNotNull(customer.getFirstName());
-      assertNotNull(customer.getLastName());
+    Assert.assertEquals(206, response.getStatus());
+    for (Customer customer : (List<Customer>) response.getEntity()) {
+      Assert.assertNotNull(customer.getFirstName());
+      Assert.assertNotNull(customer.getLastName());
     }
 
     queryParams = new MultivaluedHashMap<>();
@@ -169,15 +167,14 @@ public class RemoteTest {
     queryParams.add("fields","address.postal");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
     response = customerRemoteImpl.find(uriInfo);
-    assertEquals("Success", response.getMessage());
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    for (Customer customer : response.getObject()) {
-      assertNotNull(customer.getFirstName());
-      assertNull(customer.getAddress().getCity());
-      assertNotNull(customer.getAddress().getPostal());
+    Assert.assertEquals(206, response.getStatus());
+    for (Customer customer : (List<Customer>) response.getEntity()) {
+      Assert.assertNotNull(customer.getFirstName());
+      Assert.assertNull(customer.getAddress().getCity());
+      Assert.assertNotNull(customer.getAddress().getPostal());
     }
   }
 
@@ -188,15 +185,14 @@ public class RemoteTest {
     queryParams.add("range","1-3");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
-    ApiResponse<List<Customer>> response = customerRemoteImpl.find(uriInfo);
-    assertEquals("Success", response.getMessage());
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals(3, response.getObject().size());
-    for (Customer customer : response.getObject()) {
-      assertNotEquals("Data", customer.getFirstName());
-      assertNotNull(customer.getLastName());
+    Response response = customerRemoteImpl.find(uriInfo);
+    Assert.assertEquals(206, response.getStatus());
+    Assert.assertEquals(3, ((List<Customer>) response.getEntity()).size());
+    for (Customer customer : (List<Customer>) response.getEntity()) {
+      Assert.assertNotEquals("Data", customer.getFirstName());
+      Assert.assertNotNull(customer.getLastName());
     }
   }
 
@@ -207,15 +203,14 @@ public class RemoteTest {
     queryParams.add("asc","firstName");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
-    ApiResponse<List<Customer>> response = customerRemoteImpl.first(uriInfo);
-    assertEquals("Success", response.getMessage());
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals(1, response.getObject().size());
-    for (Customer customer : response.getObject()) {
-      assertEquals("Data", customer.getFirstName());
-      assertNotNull(customer.getLastName());
+    Response response = customerRemoteImpl.first(uriInfo);
+    Assert.assertEquals(206, response.getStatus());
+    Assert.assertEquals(1, ((List<Customer>)response.getEntity()).size());
+    for (Customer customer : (List<Customer>) response.getEntity()) {
+      Assert.assertEquals("Data", customer.getFirstName());
+      Assert.assertNotNull(customer.getLastName());
     }
 
     // Desc Test
@@ -223,15 +218,14 @@ public class RemoteTest {
     queryParams.add("desc","firstName");
 
     uriInfo = Mockito.mock(UriInfo.class);
-    Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
+    Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
 
-     response = customerRemoteImpl.first(uriInfo);
-    assertEquals("Success", response.getMessage());
-    assertEquals(ResponseStatus.SUCCESS, response.getStatus());
-    assertEquals(1, response.getObject().size());
-    for (Customer customer : response.getObject()) {
-      assertEquals("Test", customer.getFirstName());
-      assertNotNull(customer.getLastName());
+    response = customerRemoteImpl.first(uriInfo);
+    Assert.assertEquals(206, response.getStatus());
+    Assert.assertEquals(1, ((List<Customer>)response.getEntity()).size());
+    for (Customer customer : (List<Customer>) response.getEntity()) {
+      Assert.assertEquals("Test", customer.getFirstName());
+      Assert.assertNotNull(customer.getLastName());
     }
   }
 

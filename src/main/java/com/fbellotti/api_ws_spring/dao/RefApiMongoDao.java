@@ -29,7 +29,7 @@ public class RefApiMongoDao<T> implements RefApiDao<T> {
     this.acceptRange = acceptRange;
   }
 
-  public DaoResponse<List<T>> find(MultivaluedMap<String, String> filters) {
+  public DaoResponse<T> find(MultivaluedMap<String, String> filters) {
     Query query = createQuery(filters);
     List<T> objects = mongoTemplate.find(query, genericType);
     long total = mongoTemplate.count(new Query(), genericType);
@@ -41,7 +41,7 @@ public class RefApiMongoDao<T> implements RefApiDao<T> {
     return mongoTemplate.count(query, genericType);
   }
 
-  public DaoResponse<List<T>> first(MultivaluedMap<String, String> filters) {
+  public DaoResponse<T> first(MultivaluedMap<String, String> filters) {
     Query query = createQuery(filters);
     query.skip(0);
     query.limit(1);
@@ -86,5 +86,4 @@ public class RefApiMongoDao<T> implements RefApiDao<T> {
 
     return query;
   }
-
 }

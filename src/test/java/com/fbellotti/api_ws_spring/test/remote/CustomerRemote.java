@@ -6,6 +6,6 @@ import com.fbellotti.api_ws_spring.test.model.Customer;
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
-public interface CustomerRemote extends RefApiRemote<Customer> {
+public interface CustomerRemote extends RefApiRemote {
 
 }
