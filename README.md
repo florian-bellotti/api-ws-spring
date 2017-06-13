@@ -10,7 +10,7 @@ Query String
 3 web services are available:
 - `/{item}`: return all the items.
 - `/{item}/count`: return the total items number.
-- `/{item}/first`: return the first item.
+- `/{item}/first`: return the first item (**asc** or **desc** parameters are needed).
 
 ### Parameters
 Api provides query string parameters:
