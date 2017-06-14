@@ -21,6 +21,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -38,9 +39,12 @@ public class RemoteTest {
 
   @Before
   public void prepareData() {
+    clean();
+
     Address address = new Address("59000", "Lille");
 
     Customer customer = new Customer("Florian", "BELLOTTI", address);
+    //customer.setIdentifier("eee");
     mongoTemplate.insert(customer);
 
     customer = new Customer("Test", "TEST", address);
