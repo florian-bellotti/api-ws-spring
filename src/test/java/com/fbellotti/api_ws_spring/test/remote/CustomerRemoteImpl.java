@@ -1,6 +1,7 @@
 package com.fbellotti.api_ws_spring.test.remote;
 
 import com.fbellotti.api_ws_spring.dao.RefApiDao;
+import com.fbellotti.api_ws_spring.remote.CrudRemoteImpl;
 import com.fbellotti.api_ws_spring.test.model.Customer;
 import com.fbellotti.api_ws_spring.remote.RefApiRemoteImpl;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.fbellotti.api_ws_spring.test;
 import com.fbellotti.api_ws_spring.test.config.TestConfig;
 import com.fbellotti.api_ws_spring.test.model.Address;
 import com.fbellotti.api_ws_spring.test.model.Customer;
-import com.fbellotti.api_ws_spring.test.remote.CustomerRemoteImpl;
+import com.fbellotti.api_ws_spring.test.remote.CustomerCrudServiceImpl;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,7 +30,7 @@ import java.util.List;
 @ContextConfiguration(classes={TestConfig.class})
 public class CrudTest {
 
-  @Autowired private CustomerRemoteImpl customerRemoteImpl;
+  @Autowired private CustomerCrudServiceImpl customerCrudService;
   @Autowired private MongoTemplate mongoTemplate;
 
   @Before
@@ -49,7 +49,7 @@ public class CrudTest {
     Customer customer = new Customer("Florian", "BELLOTTI", address);
 
     // insert
-    Response response = customerRemoteImpl.create(customer);
+    Response response = customerCrudService.create(customer);
 
     // assert
     Assert.assertEquals(201, response.getStatus());
@@ -68,12 +68,11 @@ public class CrudTest {
     Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
 
     // read
-    response = customerRemoteImpl.find();
+    response = customerCrudService.read(id);
 
     // assert
     Assert.assertEquals(200, response.getStatus());
-    Assert.assertEquals(1, ((List<Customer>) response).size());
-    Assert.assertEquals("Florian", ((List<Customer>) customers).get(0).getFirstName());
+    Assert.assertEquals("Florian", ((Customer) response.getEntity()).getFirstName());
 
     /*
        update
@@ -81,15 +80,15 @@ public class CrudTest {
     customer.setFirstName("Test");
 
     // update
-    response = customerRemoteImpl.update(customer);
+    response = customerCrudService.update(null, customer);
     Assert.assertEquals(400, response.getStatus());
 
     // update
     customer.setIdentifier(id);
-    response = customerRemoteImpl.update(customer);
+    response = customerCrudService.update(id, customer);
 
     // assert
-    Assert.assertEquals(200, response.getStatus());
+    Assert.assertEquals(204, response.getStatus());
     customers = mongoTemplate.find(new Query(), Customer.class);
     Assert.assertEquals(1, customers.size());
     Assert.assertEquals("Test", customers.get(0).getFirstName());
@@ -104,7 +103,7 @@ public class CrudTest {
     Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
 
     // delete
-    response = customerRemoteImpl.delete();
+    response = customerCrudService.delete(id);
 
     // assert
     Assert.assertEquals(204, response.getStatus());
