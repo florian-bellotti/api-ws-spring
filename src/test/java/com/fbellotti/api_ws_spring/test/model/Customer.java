@@ -2,8 +2,6 @@ package com.fbellotti.api_ws_spring.test.model;
 
 import org.springframework.data.annotation.Id;
 
-import java.util.UUID;
-
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */

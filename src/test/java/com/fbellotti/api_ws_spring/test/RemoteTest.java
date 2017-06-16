@@ -1,10 +1,9 @@
 package com.fbellotti.api_ws_spring.test;
 
 import com.fbellotti.api_ws_spring.test.model.Address;
-import com.fbellotti.api_ws_spring.test.remote.CustomerRemoteImpl;
+import com.fbellotti.api_ws_spring.test.remote.CustomerQueryStringServiceImpl;
 import com.fbellotti.api_ws_spring.test.config.TestConfig;
 import com.fbellotti.api_ws_spring.test.model.Customer;
-import com.sun.org.apache.regexp.internal.RE;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +20,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
-import java.util.UUID;
 
 
 /**
@@ -31,7 +29,7 @@ import java.util.UUID;
 @ContextConfiguration(classes={TestConfig.class})
 public class RemoteTest {
 
-  @Autowired private CustomerRemoteImpl customerRemoteImpl;
+  @Autowired private CustomerQueryStringServiceImpl customerRemoteImpl;
   @Autowired private MongoTemplate mongoTemplate;
 
   private MultivaluedMap<String, String> queryParams;

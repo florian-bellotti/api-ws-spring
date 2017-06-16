@@ -7,7 +7,7 @@ import javax.ws.rs.core.MultivaluedMap;
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
-public interface RefApiDao<T> {
+public interface QueryStringDao<T> {
 
   /**
    * Find all items

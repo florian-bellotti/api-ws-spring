@@ -9,22 +9,20 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
 @Component
-public abstract class CrudRemoteImpl<T> implements CrudRemote<T> {
+public abstract class CrudServiceImpl<T> implements CrudService<T> {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CrudRemoteImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CrudServiceImpl.class);
 
   private CrudDao<T> daoCrud;
   private ErrorRemoteResponse executionError;
 
   @Autowired
-  public CrudRemoteImpl(CrudDao<T> daoCrud) {
+  public CrudServiceImpl(CrudDao<T> daoCrud) {
     this.daoCrud = daoCrud;
     this.executionError = new ErrorRemoteResponse("EXECUTION_ERROR", "Failed during the request execution");
   }

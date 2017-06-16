@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
-public interface CrudRemote<T> {
+public interface CrudService<T> {
 
   @POST
   @Path("/")

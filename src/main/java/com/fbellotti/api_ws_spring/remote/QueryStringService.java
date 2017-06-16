@@ -9,7 +9,7 @@ import javax.ws.rs.core.UriInfo;
 /**
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
-public interface RefApiRemote {
+public interface QueryStringService {
 
   @GET
   @Path("/")

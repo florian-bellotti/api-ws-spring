@@ -16,14 +16,14 @@ import java.util.Map;
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
 @Component
-public class RefApiMongoDao<T> implements RefApiDao<T> {
+public class QueryStringMongoDao<T> implements QueryStringDao<T> {
 
   private final MongoTemplate mongoTemplate;
   private final Class<T> genericType;
   private final int acceptRange;
 
   @Autowired
-  public RefApiMongoDao(MongoTemplate mongoTemplate, Class<T> genericType, int acceptRange) {
+  public QueryStringMongoDao(MongoTemplate mongoTemplate, Class<T> genericType, int acceptRange) {
     this.mongoTemplate = mongoTemplate;
     this.genericType = genericType;
     this.acceptRange = acceptRange;

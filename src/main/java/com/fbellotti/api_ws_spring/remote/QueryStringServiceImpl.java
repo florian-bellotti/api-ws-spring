@@ -1,6 +1,6 @@
 package com.fbellotti.api_ws_spring.remote;
 
-import com.fbellotti.api_ws_spring.dao.RefApiDao;
+import com.fbellotti.api_ws_spring.dao.QueryStringDao;
 import com.fbellotti.api_ws_spring.model.DaoResponse;
 import com.fbellotti.api_ws_spring.model.ErrorRemoteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,13 @@ import java.util.List;
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
 @Component
-public abstract class RefApiRemoteImpl<T> implements RefApiRemote {
+public abstract class QueryStringServiceImpl<T> implements QueryStringService {
 
-  private RefApiDao<T> daoRef;
+  private QueryStringDao<T> daoRef;
   private ErrorRemoteResponse executionError;
 
   @Autowired
-  public RefApiRemoteImpl(RefApiDao<T> daoRef) {
+  public QueryStringServiceImpl(QueryStringDao<T> daoRef) {
     this.daoRef = daoRef;
     this.executionError = new ErrorRemoteResponse("EXECUTION_ERROR", "Failed during the request execution");
   }
