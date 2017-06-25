@@ -8,9 +8,9 @@ Query String
 ----------------------
 ### Web services
 3 web services are available:
-- `/{item}`: return all the items.
-- `/{item}/count`: return the total items number.
-- `/{item}/first`: return the first item (**asc** or **desc** parameters are needed).
+- GET `/{item}`: return all the items.
+- GET `/{item}/count`: return the total items number.
+- GET `/{item}/first`: return the first item (**asc** or **desc** parameters are needed).
 
 ### Parameters
 Api provides query string parameters:
@@ -39,4 +39,29 @@ This is the list of possible errors :
 
 CRUD
 ----------------------
-In development ....
+### Web services
+3 web services are available:
+- POST `/{item}`: create the item (The response status should be 201 and the body contains the created item)
+- GET `/{item}/{id}`: read an item thanks to its identifier (The response status should be 200 and the body contains the item)
+- UPDATE `/{item}/{id}`: update an item thanks to its identifier (The response status should be 204 and the body is empty)
+- DELETE `/{item}/{id}`: delete an item thanks to its identifier (The response status should be 204 and the body is empty)
+
+The identifier is configurable in the bean definition. In this example, the field “identifier” is the identifier : 
+```xml 
+<bean id="customerCrudMongoDao" class="com.fbellotti.api_ws_spring.dao.CrudMongoDao">
+  <constructor-arg name="mongoTemplate" ref="mongoTemplate" />
+    <constructor-arg name="genericType" >
+        <value type="java.lang.Class">com.fbellotti.api_ws_spring.example.model.Customer</value>
+    </constructor-arg>
+    <constructor-arg name="idField" value="identifier" />
+</bean>
+``` 
+
+### Errors
+This is the list of possible errors :
+
+| Status | Code                | Message                                    |
+|------  |-------------------- |-------------                               |
+|400     |NULL_ID              | The id is null                             |
+|400     |NULL_ITEM            | The item is null                           |
+|500     |EXECUTION_ERROR      | Failed during the request execution        |
