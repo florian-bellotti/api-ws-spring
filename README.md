@@ -1,5 +1,8 @@
 api-ws-spring
 ===========
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5417e532f7e24ae68651800c386e3a1e)](https://www.codacy.com/app/florian-bellotti/api-ws-spring?utm_source=github.com&utm_medium=referral&utm_content=florian-bellotti/api-ws-spring&utm_campaign=badger)
+
 "api-ws-spring" is an api that provides a set of web services easily implementable. An example of the implementation of this project is available here : https://github.com/florian-bellotti/api-ws-spring-example. 
 
 Web services 
