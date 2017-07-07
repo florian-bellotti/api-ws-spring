@@ -183,8 +183,8 @@ public class RemoteTest {
   @Test
   public void rangeTest() {
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("asc","firstName");
-    queryParams.add("range","1-3");
+    queryParams.add("asc", "firstName");
+    queryParams.add("range", "1-3");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
@@ -202,7 +202,7 @@ public class RemoteTest {
   public void sortedByTest() {
     // Asc Test
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("asc","firstName");
+    queryParams.add("asc", "firstName");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
@@ -224,7 +224,7 @@ public class RemoteTest {
 
     response = customerRemoteImpl.first(uriInfo);
     Assert.assertEquals(206, response.getStatus());
-    Assert.assertEquals(1, ((List<Customer>)response.getEntity()).size());
+    Assert.assertEquals(1, ((List<Customer>) response.getEntity()).size());
     for (Customer customer : (List<Customer>) response.getEntity()) {
       Assert.assertEquals("Test", customer.getFirstName());
       Assert.assertNotNull(customer.getLastName());
