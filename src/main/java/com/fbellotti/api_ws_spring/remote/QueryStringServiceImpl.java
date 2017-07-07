@@ -85,7 +85,7 @@ public abstract class QueryStringServiceImpl<T> implements QueryStringService {
    * @return Return a Response
    */
   public Response first(UriInfo info) {
-// check if uri info are valid
+    // check if uri info are valid
     List<ErrorRemoteResponse> errors = checkUriInfo(info);
 
     if (errors != null) {

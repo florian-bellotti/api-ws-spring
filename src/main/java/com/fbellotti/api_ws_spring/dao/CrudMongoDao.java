@@ -3,7 +3,6 @@ package com.fbellotti.api_ws_spring.dao;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,7 +19,7 @@ public class CrudMongoDao<T> implements CrudDao<T> {
   private final Class<T> genericType;
   private final String idField;
 
- @Autowired
+  @Autowired
   public CrudMongoDao(MongoTemplate mongoTemplate, Class<T> genericType, String idField) {
     this.mongoTemplate = mongoTemplate;
     this.genericType = genericType;
@@ -66,7 +65,7 @@ public class CrudMongoDao<T> implements CrudDao<T> {
     Update update = new Update();
     for (String key : object.keySet()) {
       Object value = object.get(key);
-      if(value!=null){
+      if (value != null) {
         update.set(key, value);
       }
     }

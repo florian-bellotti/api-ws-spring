@@ -77,6 +77,7 @@ public class QueryStringMongoDao<T> implements QueryStringDao<T> {
           break;
         default:
           query.addCriteria(Criteria.where(entry.getKey()).in(entry.getValue()));
+          break;
       }
     }
 

@@ -63,7 +63,7 @@ public class CrudTest {
      */
     // mock
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("id",id);
+    queryParams.add("id", id);
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getPathParameters()).thenReturn(queryParams);
 

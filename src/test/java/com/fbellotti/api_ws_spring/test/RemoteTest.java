@@ -69,8 +69,8 @@ public class RemoteTest {
     Assert.assertEquals(new Long(1503), response.getEntity());
 
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("firstName","Florian");
-    queryParams.add("firstName","Test");
+    queryParams.add("firstName", "Florian");
+    queryParams.add("firstName", "Test");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
@@ -110,7 +110,7 @@ public class RemoteTest {
     Assert.assertEquals("1000", response.getHeaderString("accept-range"));
 
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("range","1-2000");
+    queryParams.add("range", "1-2000");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
@@ -124,7 +124,7 @@ public class RemoteTest {
   @Test
   public void firstTest() {
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("asc","firstName");
+    queryParams.add("asc", "firstName");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
@@ -138,7 +138,7 @@ public class RemoteTest {
   @Test
   public void fieldTest() {
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("fields","firstName");
+    queryParams.add("fields", "firstName");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
@@ -151,8 +151,8 @@ public class RemoteTest {
     }
 
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("fields","firstName");
-    queryParams.add("fields","lastName");
+    queryParams.add("fields", "firstName");
+    queryParams.add("fields", "lastName");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
@@ -165,8 +165,8 @@ public class RemoteTest {
     }
 
     queryParams = new MultivaluedHashMap<>();
-    queryParams.add("fields","firstName");
-    queryParams.add("fields","address.postal");
+    queryParams.add("fields", "firstName");
+    queryParams.add("fields", "address.postal");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);
@@ -209,7 +209,7 @@ public class RemoteTest {
 
     Response response = customerRemoteImpl.first(uriInfo);
     Assert.assertEquals(206, response.getStatus());
-    Assert.assertEquals(1, ((List<Customer>)response.getEntity()).size());
+    Assert.assertEquals(1, ((List<Customer>) response.getEntity()).size());
     for (Customer customer : (List<Customer>) response.getEntity()) {
       Assert.assertEquals("Data", customer.getFirstName());
       Assert.assertNotNull(customer.getLastName());
@@ -217,7 +217,7 @@ public class RemoteTest {
 
     // Desc Test
     queryParams=new MultivaluedHashMap<>();
-    queryParams.add("desc","firstName");
+    queryParams.add("desc", "firstName");
 
     uriInfo = Mockito.mock(UriInfo.class);
     Mockito.when(uriInfo.getQueryParameters()).thenReturn(queryParams);

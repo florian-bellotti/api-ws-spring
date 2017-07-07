@@ -39,8 +39,8 @@ public abstract class CrudServiceImpl<T> implements CrudService<T> {
     }
 
     try {
-      item = daoCrud.create(item);
-      return Response.status(201).entity(item).build();
+      T response = daoCrud.create(item);
+      return Response.status(201).entity(response).build();
     } catch (Exception e) {
       LOG.error("Tried to insert item : " + item.toString() + e);
       return Response.status(500).entity(executionError).build();
