@@ -16,7 +16,7 @@ import java.util.List;
  * @author <a href="http://fbellotti.com">Florian BELLOTTI</a>
  */
 @Component
-public abstract class QueryStringServiceImpl<T> implements QueryStringService {
+public abstract class QueryStringServiceImpl<T> extends RestApi implements QueryStringService {
 
   private QueryStringDao<T> daoRef;
   private ErrorRemoteResponse executionError;
@@ -52,7 +52,7 @@ public abstract class QueryStringServiceImpl<T> implements QueryStringService {
           .header("accept-range", find.getAcceptRange())
           .build();
     } catch (Exception e) {
-      return Response.status(500).entity(executionError).build();
+      return internalError(e);
     }
   }
 
@@ -75,7 +75,7 @@ public abstract class QueryStringServiceImpl<T> implements QueryStringService {
       Long count = daoRef.count(info.getQueryParameters());
       return Response.status(200).entity(count).build();
     } catch (Exception e) {
-      return Response.status(500).entity(executionError).build();
+      return internalError(e);
     }
   }
 
@@ -109,7 +109,7 @@ public abstract class QueryStringServiceImpl<T> implements QueryStringService {
           .header("accept-range", first.getAcceptRange())
           .build();
     } catch (Exception e) {
-      return Response.status(500).entity(executionError).build();
+      return internalError(e);
     }
   }
 

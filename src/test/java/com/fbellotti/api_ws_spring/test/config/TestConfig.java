@@ -22,7 +22,7 @@ public class TestConfig {
 
   @Bean
   public MongoTemplate mongoTemplate() throws UnknownHostException {
-    MongoDbFactory dbFactory = new SimpleMongoDbFactory(new MongoClient(), "Test");
+    MongoDbFactory dbFactory = new SimpleMongoDbFactory(new MongoClient(), "test");
     return new MongoTemplate(dbFactory);
   }
 
